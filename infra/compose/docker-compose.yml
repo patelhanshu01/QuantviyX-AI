@@ -1,0 +1,52 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-quantivyx}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-quantivyx}
+      POSTGRES_DB: ${POSTGRES_DB:-quantivyx}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+
+  core-platform:
+    build:
+      context: ../../services/core-platform
+    ports:
+      - "8080:8080"
+    environment:
+      CORE_HTTP_PORT: 8080
+      POSTGRES_DSN: ${POSTGRES_DSN:-jdbc:postgresql://postgres:5432/quantivyx}
+      POSTGRES_USER: ${POSTGRES_USER:-quantivyx}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-quantivyx}
+      REDIS_URL: ${REDIS_URL:-redis://redis:6379/0}
+      AI_QUANT_URL: ${AI_QUANT_URL:-http://ai-quant:8000}
+      BACKTEST_SIM_URL: ${BACKTEST_SIM_URL:-http://backtest-sim:8001}
+    depends_on:
+      - postgres
+      - redis
+      - ai-quant
+      - backtest-sim
+
+  ai-quant:
+    build:
+      context: ../../services/ai-quant
+    ports:
+      - "8000:8000"
+
+  backtest-sim:
+    build:
+      context: ../../services/backtest-sim
+    ports:
+      - "8001:8001"
+
+volumes:
+  postgres_data:

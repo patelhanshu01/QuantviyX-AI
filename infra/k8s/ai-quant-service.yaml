@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ai-quant
+  labels:
+    app: ai-quant
+spec:
+  type: ClusterIP
+  selector:
+    app: ai-quant
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000

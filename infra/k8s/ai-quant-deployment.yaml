@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-quant
+  labels:
+    app: ai-quant
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ai-quant
+  template:
+    metadata:
+      labels:
+        app: ai-quant
+    spec:
+      containers:
+        - name: ai-quant
+          image: quantivyx/ai-quant:latest
+          ports:
+            - containerPort: 8000
+          env:
+            - name: AI_MODEL_PATH
+              value: /models/tft.pt
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "512Mi"
+            limits:
+              cpu: "1"
+              memory: "1Gi"

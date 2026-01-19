@@ -1,0 +1,9 @@
+{
+  "name": "quantivyx-ai",
+  "private": true,
+  "scripts": {
+    "bootstrap": "bash scripts/bootstrap.sh",
+    "test:all": "bash scripts/test-all.sh"
+    
+  }
+}

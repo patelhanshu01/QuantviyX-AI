@@ -1,0 +1,7 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    hikari:
+      maximum-pool-size: 5

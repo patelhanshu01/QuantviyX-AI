@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: core-platform
+  datasource:
+    url: ${POSTGRES_DSN}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+  redis:
+    url: ${REDIS_URL}
+
+server:
+  port: ${CORE_HTTP_PORT:8080}
